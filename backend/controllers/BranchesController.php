@@ -4,9 +4,12 @@ namespace backend\controllers;
 
 use backend\models\Branches;
 use backend\models\BranchesSearch;
+use backend\models\Companies;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * BranchesController implements the CRUD actions for Branches model.
@@ -64,24 +67,28 @@ class BranchesController extends Controller
      * Creates a new Branches model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
+     * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionCreate()
     {
-        $model = new Branches();
+        if(Yii::$app->user->can('create-branch') )
+        {
+            $model = new Branches();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->branch_created_date = date('Y-m-d h:m:s');
-                $model->save();
-                return $this->redirect(['view', 'branch_id' => $model->branch_id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+                if ($model->load(Yii::$app->request->post())) {
+                    $model->branch_created_date = date('Y-m-d h:m:s');
+                    $model->save();
+                    return $this->redirect(['view', 'id' => $model->branch_id]);
+            } else {
+                return $this->render('create', [
+                'model' => $model,
+            ]);
         }
+    }else{
+            throw new ForbiddenHttpException;
+         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -116,6 +123,25 @@ class BranchesController extends Controller
         $this->findModel($branch_id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionLists($id)
+    {
+       $countBranches = Branches::find()
+           ->where(['Companies_company_id' => $id])
+           ->count();
+        $branches = Branches::find()
+            ->where(['Companies_company_id' => $id])
+            ->all();
+       if($countBranches > 0)
+       {
+           foreach ($branches as $branch) {
+               echo "<option value='".$branch->branch_id."'>" .$branch->branch_name."</option>";
+           }
+       }
+       else{
+           echo "<option>-</option>>";
+       }
     }
 
     /**

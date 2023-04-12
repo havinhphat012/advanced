@@ -6,8 +6,10 @@ use Yii;
 use backend\models\Companies;
 use backend\models\CompaniesSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -65,40 +67,48 @@ class CompaniesController extends Controller
     /**
      * Creates a new Companies model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return string|Response
+     * @throws ForbiddenHttpException
      */
     public function actionCreate()
     {
-        $model = new Companies();
+        if(Yii::$app->user->can('create-company'))
+        {
+            $model = new Companies();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post())) {
 
-                $imageName = $model->company_name;
+                    $imageName = $model->company_name;
 
-                $model->file = UploadedFile::getInstance($model,'file');
-                $model->file->saveAs( 'uploads/'.$imageName.'.'.$model->file->extension );
+                    $model->file = UploadedFile::getInstance($model,'file');
+                    $model->file->saveAs( 'uploads/'.$imageName.'.'.$model->file->extension );
 
-                $model->logo = 'uploads/'.$imageName.'.'.$model->file->extension;
+                    $model->logo = 'uploads/'.$imageName.'.'.$model->file->extension;
 
-                $model->company_created_date = date('Y-m-d h:m:s');
-                $model->save();
-                return $this->redirect(['view', 'company_id' => $model->company_id]);
+                    $model->company_created_date = date('Y-m-d h:m:s');
+                    $model->save();
+                    return $this->redirect(['view', 'company_id' => $model->company_id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+
+        }else{
+            throw new ForbiddenHttpException;
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
      * Updates an existing Companies model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $company_id Company ID
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($company_id)
@@ -118,7 +128,7 @@ class CompaniesController extends Controller
      * Deletes an existing Companies model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $company_id Company ID
-     * @return \yii\web\Response
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($company_id)

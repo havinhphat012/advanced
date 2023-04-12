@@ -24,6 +24,11 @@ class Companies extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    public $file;
+    /**
+     * @var mixed|string|null
+     */
     public static function tableName()
     {
         return 'companies';
@@ -38,10 +43,11 @@ class Companies extends \yii\db\ActiveRecord
             [['company_name', 'company_email', 'company_address', 'company_created_date', 'company_status'], 'required'],
             [['company_created_date'], 'safe'],
             [['company_status'], 'string'],
-            [['company_name', 'company_email'], 'string', 'max' => 100],
+            [['file'], 'file'],
+            [['company_name', 'logo', 'company_email'], 'string', 'max' => 100],
             [['company_address'], 'string', 'max' => 255],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::class, 'targetAttribute' => ['company_id' => 'branch_id']],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departments::class, 'targetAttribute' => ['company_id' => 'department_id']],
+//            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::class, 'targetAttribute' => ['company_id' => 'branch_id']],
+//            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departments::class, 'targetAttribute' => ['company_id' => 'department_id']],
         ];
     }
 
@@ -55,6 +61,7 @@ class Companies extends \yii\db\ActiveRecord
             'company_name' => 'Company Name',
             'company_email' => 'Company Email',
             'company_address' => 'Company Address',
+            'file' => 'Logo',
             'company_created_date' => 'Company Created Date',
             'company_status' => 'Company Status',
         ];

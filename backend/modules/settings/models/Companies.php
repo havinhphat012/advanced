@@ -24,6 +24,7 @@ class Companies extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
     public static function tableName()
     {
         return 'companies';
@@ -54,7 +55,6 @@ class Companies extends \yii\db\ActiveRecord
             'company_name' => 'Company Name',
             'company_email' => 'Company Email',
             'company_address' => 'Company Address',
-            'logo' => 'Logo',
             'company_start_date' => 'Company Start Date',
             'company_created_date' => 'Company Created Date',
             'company_status' => 'Company Status',

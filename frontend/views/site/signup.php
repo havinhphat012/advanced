@@ -6,6 +6,7 @@
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,6 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
+                <?php
+                    $authItems = ArrayHelper::map($authItems,'name', 'name');
+                ?>
+
+                <?= $form->field($model, 'permissions')->checkboxList($authItems); ?>
 
 
                 <div class="form-group">

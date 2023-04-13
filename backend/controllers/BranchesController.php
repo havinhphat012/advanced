@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
+use yii\web\Response;
 
 /**
  * BranchesController implements the CRUD actions for Branches model.
@@ -66,7 +67,7 @@ class BranchesController extends Controller
     /**
      * Creates a new Branches model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @return mixed
      * @throws ForbiddenHttpException
      */
@@ -95,7 +96,7 @@ class BranchesController extends Controller
      * Updates an existing Branches model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $branch_id Branch ID
-     * @return string|\yii\web\Response
+     * @return string|Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($branch_id)
@@ -115,7 +116,7 @@ class BranchesController extends Controller
      * Deletes an existing Branches model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $branch_id Branch ID
-     * @return \yii\web\Response
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($branch_id)

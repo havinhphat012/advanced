@@ -38,7 +38,10 @@ return [
                 ],
             ],
         ],
-
+        'mailer' => [
+          'class' => yii\swiftmailer\Mailer::class,
+          'useFileTransport' => false,
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles'=>['guest'],
@@ -47,7 +50,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
     ],
     'params' => $params,
 ];

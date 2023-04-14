@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\modules\settings\models\Companies $model */
 /** @var yii\widgets\ActiveForm $form */
+/** @var backend\models\Branches $branch */
 ?>
 
 <div class="companies-form">
@@ -19,12 +20,22 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'company_address')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'file')->fileInput(['maxlength' => true]) ?>
+<!---->
+<!--    --><?php //= $form->field($model, 'company_start_date')->textInput() ?>
+<!---->
+<!--    --><?php //= $form->field($model, 'company_created_date')->textInput() ?>
 
-    <?= $form->field($model, 'company_start_date')->textInput() ?>
+    <?= $form->field($model, 'company_status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', ], ['prompt' => 'Status']) ?>
 
-    <?= $form->field($model, 'company_created_date')->textInput() ?>
+<!--    Create Branch for this company-->
 
-    <?= $form->field($model, 'company_status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', ], ['prompt' => '']) ?>
+    <?= $form->field($branch, 'branch_name')->textInput(['maxlength' => 100]) ?>
+
+    <?= $form->field($branch, 'branch_address')->textInput(['maxlength' => 255]) ?>
+
+    <?= $form->field($branch, 'branch_status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', ], ['prompt' => 'Status']) ?>
+
+
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

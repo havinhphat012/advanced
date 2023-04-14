@@ -22,6 +22,7 @@ use Yii;
  */
 class Branches extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */

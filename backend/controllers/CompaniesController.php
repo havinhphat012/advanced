@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Branches;
 use Yii;
 use backend\models\Companies;
 use backend\models\CompaniesSearch;
@@ -17,23 +18,7 @@ use yii\web\UploadedFile;
  */
 class CompaniesController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
+
 
     /**
      * Lists all Companies models.
@@ -72,36 +57,43 @@ class CompaniesController extends Controller
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->can('create-company'))
-        {
+        if(Yii::$app->user->can('create-company')) {
             $model = new Companies();
+            $branch = new Branches();
 
             if ($this->request->isPost) {
-                if ($model->load($this->request->post())) {
+                if ($model->load(Yii::$app->request->post()) && $branch->load(Yii::$app->request->post())) {
 
                     $imageName = $model->company_name;
+                    if(empty($model->file))
+                    {
+                        $model->file = UploadedFile::getInstance($model,'file');
+                        $model->file->saveAs( 'uploads/'.$imageName.'.'.$model->file->extension );
 
-                    $model->file = UploadedFile::getInstance($model,'file');
-                    $model->file->saveAs( 'uploads/'.$imageName.'.'.$model->file->extension );
+                        $model->logo = 'uploads/'.$imageName.'.'.$model->file->extension;
+                    }
 
-                    $model->logo = 'uploads/'.$imageName.'.'.$model->file->extension;
 
                     $model->company_created_date = date('Y-m-d h:m:s');
                     $model->save();
-                    return $this->redirect(['view', 'company_id' => $model->company_id]);
+
+                    $branch->companies_company_id = $model->company_id;
+                    $branch->branch_start_date = date('Y-m-d H:m:s');
+                    $branch->save();
+
+                    return $this->redirect(['view', 'id' => $model->company_id]);
+            }} else {
+                    return $this->render('create', [
+                        'model' => $model,
+                        'branch' => $branch,
+                    ]);
                 }
-            } else {
-                $model->loadDefaultValues();
-            }
-
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-
-        }else{
-            throw new ForbiddenHttpException;
         }
+        else {
+                throw new ForbiddenHttpException;
 
+
+            }
     }
 
     /**

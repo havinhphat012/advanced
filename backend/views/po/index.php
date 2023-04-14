@@ -1,10 +1,12 @@
 <?php
 
 use backend\models\Po;
+use backend\models\PoitemSearch;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var backend\models\PoSearch $searchModel */
@@ -26,10 +28,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax'=> true,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'class'=>'kartik\grid\ExpandRowColumn',
+                    'value'=>function ($model, $key, $index, $column) {
+                        return GridView::ROW_COLLAPSED;
+                    },
+                    'detail'=>function($model, $key, $index, $column) {
+                        $searchModel = new PoItemSearch();
+                        $searchModel->po_id = $model->id;
+                        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            'id',
+                        return Yii::$app->controller->renderPartial('_poitems', [
+                                'searchModel'=>$searchModel,
+                                'dataProvider'=>$dataProvider,
+                        ]);
+                    },
+                ],
             'po_no',
             'description:ntext',
             [

@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::button('Create Branches', ['value'=>Url::to('index.php?r=branches/create'),
-            'class'=>'btn btn-success', 'id'=>'modalButton']) ?>
+        <?= Html::button('Create Branches', ['value' => Url::to('index.php?r=branches/create'),
+            'class' => 'btn btn-success', 'id' => 'modalButton']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,8 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     Modal::begin([
         'title' => '<h4>Branches</h4>',
-        'id'=>'modal',
-        'size'=>'modal-lg',
+        'id' => 'modal',
+        'size' => 'modal-lg',
     ]);
 
     echo "<div id='modalContent'></div>";
@@ -39,41 +39,41 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin(['id'=>'branchesGrid']); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'rowOptions' => function($model) {
-                if($model->branch_status == 'inactive')
-                {
-                    return ['class'=>'danger'];
-                }else
-                {
-                    return ['class'=>'success'];
-                }
-        },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                    'attribute'=>'companies_company_id',
+                'attribute' => 'companies_company_id',
                 'value' => 'companiesCompany.company_name'
             ],
 //            'branch_id',
             'branch_name',
             'branch_address',
             'branch_created_date',
-            'branch_status',
+            [
+                'attribute' => 'branch_status',
+                'value' => function ($model) {
+                    if ($model->branch_status == 'inactive') {
+                        return '<span class="badge bg-danger">Inactive</span>';
+                    }else{
+                        return '<span class="badge bg-primary">Active</span>';
+                    }
+                },
+                'format'=>'html'
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
-//            [
-//                'class' => ActionColumn::className(),
-//                'urlCreator' => function ($action, Branches $model, $key, $index, $column) {
-//                    return Url::toRoute([$action, 'branch_id' => $model->branch_id]);
-//                 }
-//            ],
+            [
+                'class' => ActionColumn::class,
+                'urlCreator' => function ($action, Branches $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'branch_id' => $model->branch_id]);
+                 }
+            ],
         ],
     ]); ?>
 
-    <?php Pjax::end()?>
+    <?php Pjax::end() ?>
 </div>

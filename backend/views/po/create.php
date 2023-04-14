@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var backend\models\Po $model */
+/** @var backend\models\PoItem $modelsPoItem */
 
 $this->title = Yii::t('app', 'Create Po');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pos'), 'url' => ['index']];

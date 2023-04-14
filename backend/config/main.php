@@ -12,10 +12,18 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
+        'gridview' => [
+            'class' => '\kartik\grid\Module'
+
+            //message source
+            //'downloadAction' => 'gridview/export/download',
+            //'il8n' => []
+        ],
         'settings' => [
             'class' => 'backend\modules\settings\Settings',
         ],
     ],
+
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',

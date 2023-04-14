@@ -47,7 +47,7 @@ class Companies extends \yii\db\ActiveRecord
     }
 
     public function checkDate($attribute, $params){
-        $today = date(d-m-Y);
+        $today = date(Y-m-d);
         $selectedDate = date($this->company_start_date);
         if($selectedDate > $today)
         {

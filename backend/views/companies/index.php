@@ -16,6 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="companies-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php
+        echo $this->render('_search', ['model' => $searchModel]);
+    ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Create Companies'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -29,19 +32,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'company_id',
+//            'company_id',
             'company_name',
             'company_email:email',
             'company_address',
-            'logo',
-            //'company_start_date',
-            //'company_created_date',
+//            'logo',
+//            'company_start_date',
+            'company_created_date',
             //'company_status',
+//            [
+//                'class' => ActionColumn::class,
+//                'urlCreator' => function ($action, Companies $model, $key, $index, $column) {
+//                    return Url::toRoute([$action, 'company_id' => $model->company_id]);
+//                }
+//            ],
             [
-                'class' => ActionColumn::class,
-                'urlCreator' => function ($action, Companies $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'company_id' => $model->company_id]);
-                 }
+                'class' => 'yii\grid\ActionColumn'
             ],
         ],
     ]); ?>

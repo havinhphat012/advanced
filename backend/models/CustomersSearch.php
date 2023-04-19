@@ -14,6 +14,7 @@ class CustomersSearch extends Customers
     /**
      * {@inheritdoc}
      */
+
     public function rules()
     {
         return [

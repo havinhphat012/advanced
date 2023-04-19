@@ -58,6 +58,10 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        'MyComponent' => [
+            'class' => 'backend\components\MyComponent',
+        ]
     ],
     'params' => $params,
 ];

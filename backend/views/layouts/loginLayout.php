@@ -19,21 +19,24 @@ LoginAsset::register($this);
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="d-flex flex-column h-100">
+    <body class="login-page d-flex flex-column h-100">
     <?php $this->beginBody() ?>
 
-    <header>
-
-    </header>
-
-    <main role="main" class="flex-shrink-0">
+    <div class="wrap">
         <div class="container">
-
+            <?=$content ?>
         </div>
-    </main>
+    </div>
 
     <footer class="footer mt-auto py-3 text-muted">
-
+        <div class="container">
+            <div class="pull-left">
+                &copy My Company <?=date ('Y')?>
+            </div>
+            <div class="pull-right">
+                <?=Yii::powered()?>
+            </div>
+        </div>
     </footer>
 
     <?php $this->endBody() ?>

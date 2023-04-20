@@ -2,31 +2,44 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
+
 /** @var \common\models\LoginForm $model */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = 'Login';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <div class="mt-5 offset-lg-3 col-lg-6">
-        <h1><?= Html::encode($this->title) ?></h1>
 
-        <p>Please fill out the following fields to login:</p>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="http://localhost/advanced/backend/web/index.php"><b>Admin</b>LTE</a>
+    </div>
+</div>
 
+<div class="card">
+    <div class="card-body login-card-body">
+        <p class="login-box-msg">Sign in to start your session</p>
         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+        <?= $form->field($model, 'username', ['options' => [
+            'tag' => 'div',
+            'class' => 'form-group field-loginform-username has-feedbach requỉed'
+        ],
+            'template'=>'{input}<span class="glyphicon glyphicon-user form-control-feedback"></span>
+{error}{hint}'
+        ])->textInput(['placeholder'=>'Username']) ?>
 
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'Password']) ?>
 
-            <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-            <div class="form-group">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
-            </div>
+        <div class="form-group">
+            <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+        </div>
 
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+
+

@@ -23,7 +23,8 @@
         "yiisoft/yii2-swiftmailer": "^2.0",
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-grid": "*",
-        "kartik-v/yii2-bootstrap5-dropdown": "@dev"
+        "kartik-v/yii2-bootstrap5-dropdown": "@dev",
+        "kartik-v/yii2-editable": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

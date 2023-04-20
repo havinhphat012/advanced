@@ -4,7 +4,7 @@ use backend\models\Branches;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use  yii\bootstrap5\Modal;
 
@@ -39,11 +39,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 
-    <?php Pjax::begin(['id'=>'branchesGrid']); ?>
+    <?php Pjax::begin(['id' => 'branchesGrid']); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax'=>true,
+        'export'=>false,
+        'rowOptions'=>function($model){
+        if($model->branch_status == 'inactive')
+{
+    if($model)
+}
+        },
+
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [

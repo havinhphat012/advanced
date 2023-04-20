@@ -7,8 +7,8 @@ use yii\base\Component;
 
 class MyComponent extends Component
 {
-    public function hello()
+    public function currencyConvert($currency_from)
     {
-        echo 'Welcome to the channel';
+        return $currency_from;
     }
 }

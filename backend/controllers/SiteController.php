@@ -62,8 +62,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $lkrValue = Yii::$app->MyComponent->currencyConvert('USD');
-        var_dump($lkrValue);
         return $this->render('index');
     }
 

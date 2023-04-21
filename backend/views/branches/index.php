@@ -44,14 +44,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'pjax'=>true,
-        'export'=>false,
-        'rowOptions'=>function($model){
-        if($model->branch_status == 'inactive')
-{
-    if($model)
-}
+        'pjax' => true,
+        'export' => false,
+        'rowOptions' => function ($model) {
+            if ($model->branch_status == 'inactive') {
+                return ['class' => 'danger'];
+            } else {
+                return ['class' => ' success'];
+            }
         },
+//        'columns' => [
+//                ['class' => ' yii\grid\SerialColumn'],
+//                [
+//                        'attribute' => 'companies_company_id',
+//                        'value' => 'companiesCompany.company_name',
+//],
+//'branch_name',
+//'branch_address',
+//'branch_created_date',
+//'branch_status',
+//
+//[
+//        'class' => 'yii\grid\ActionColumn',
+//],
+//]);
 
 
         'columns' => [
@@ -60,8 +76,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'companies_company_id',
                 'value' => 'companiesCompany.company_name'
             ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'header'=>'BRANCH',
+                'attribute' => 'branch_name',
+
+            ],
 //            'branch_id',
-            'branch_name',
+//            'branch_name',
             'branch_address',
             'branch_created_date',
             [
@@ -69,18 +91,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     if ($model->branch_status == 'inactive') {
                         return '<span class="badge bg-danger">Inactive</span>';
-                    }else{
+                    } else {
                         return '<span class="badge bg-primary">Active</span>';
                     }
                 },
-                'format'=>'html'
+                'format' => 'html'
             ],
 
             [
                 'class' => ActionColumn::class,
                 'urlCreator' => function ($action, Branches $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'branch_id' => $model->branch_id]);
-                 }
+                }
             ],
         ],
     ]); ?>

@@ -47,21 +47,19 @@ class BranchesController extends Controller
         $searchModel = new BranchesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
-        if(Yii::$app->request->post('hasEditable'))
-        {
+        if (Yii::$app->request->post('hasEditable')) {
             $branchId = Yii::$app->request->post('editableKey');
             $branch = Branches::findOne($branchId);
 
-            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $out = Json::encode(['output' => '', 'message' => '']);
 
             $post = [];
             $posted = current($_POST['Branches']);
             $post['Branches'] = $posted;
-            if($branch->load($post))
-            {
+            if ($branch->load($post)) {
                 $branch->save();
                 $output = 'my values';
-                $out = Json::encode(['output'=>$output,'message'=> '']);
+                $out = Json::encode(['output' => $output, 'message' => '']);
             }
             echo $out;
             return;
@@ -95,27 +93,66 @@ class BranchesController extends Controller
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->can('create-branch') )
-        {
+        if (Yii::$app->user->can('create-branch')) {
             $model = new Branches();
 
-                if ($model->load(Yii::$app->request->post())) {
-                    $model->branch_created_date = date('Y-m-d h:m:s');
+            if ($model->load(Yii::$app->request->post())) {
+                $model->branch_created_date = date('Y-m-d h:m:s');
 
-                    if($model->save()){
-                        echo 1;
-                    }else{
-                        echo 0;
-                    }
+                if ($model->save()) {
+                    echo 1;
+                } else {
+                    echo 0;
+                }
             } else {
                 return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }else{
+                    'model' => $model,
+                ]);
+            }
+        } else {
             throw new ForbiddenHttpException;
-         }
+        }
 
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    public function actionImportExcel()
+    {
+        $inputFile = 'uploads/branches_file.xlsx';
+        try {
+            $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFile);
+            $objReader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFile);
+
+
+            $sheet = $objPHPExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+
+            for ($row = 1; $row <= $highestRow; $row++) {
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+
+                if ($row == 1) {
+                    continue;
+                }
+                $branch = new Branches();
+                $branch_id = $rowData[0][0];
+                $branch->companies_company_id = $rowData[0][1];
+                $branch->branch_name = $rowData[0][2];
+                $branch->branch_address = $rowData[0][3];
+                $branch->branch_created_date = date('Y-m-d H:i:s');
+                $branch->branch_status = $rowData[0][4];
+                $branch->save();
+
+                print_r($branch->getErrors());
+            }
+        } catch (\Exception $e) {
+            Yii::debug($e->getMessage());
+            die('Error');
+        }
     }
 
     /**
@@ -154,21 +191,19 @@ class BranchesController extends Controller
 
     public function actionLists($id)
     {
-       $countBranches = Branches::find()
-           ->where(['Companies_company_id' => $id])
-           ->count();
+        $countBranches = Branches::find()
+            ->where(['Companies_company_id' => $id])
+            ->count();
         $branches = Branches::find()
             ->where(['Companies_company_id' => $id])
             ->all();
-       if($countBranches > 0)
-       {
-           foreach ($branches as $branch) {
-               echo "<option value='".$branch->branch_id."'>" .$branch->branch_name."</option>";
-           }
-       }
-       else{
-           echo "<option>-</option>>";
-       }
+        if ($countBranches > 0) {
+            foreach ($branches as $branch) {
+                echo "<option value='" . $branch->branch_id . "'>" . $branch->branch_name . "</option>";
+            }
+        } else {
+            echo "<option>-</option>>";
+        }
     }
 
     /**

@@ -5,7 +5,9 @@ namespace backend\controllers;
 use backend\models\Branches;
 use backend\models\BranchesSearch;
 use backend\models\Companies;
+use kartik\editable\Editable;
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -44,6 +46,26 @@ class BranchesController extends Controller
     {
         $searchModel = new BranchesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        if(Yii::$app->request->post('hasEditable'))
+        {
+            $branchId = Yii::$app->request->post('editableKey');
+            $branch = Branches::findOne($branchId);
+
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+
+            $post = [];
+            $posted = current($_POST['Branches']);
+            $post['Branches'] = $posted;
+            if($branch->load($post))
+            {
+                $branch->save();
+                $output = 'my values';
+                $out = Json::encode(['output'=>$output,'message'=> '']);
+            }
+            echo $out;
+            return;
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

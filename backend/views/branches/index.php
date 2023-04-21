@@ -1,12 +1,14 @@
 <?php
 
 use backend\models\Branches;
+use kartik\editable\Editable;
+use yii\grid\SerialColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use  yii\bootstrap5\Modal;
+use  yii\bootstrap4\Modal;
 
 /** @var yii\web\View $this */
 /** @var backend\models\BranchesSearch $searchModel */
@@ -39,73 +41,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 
-    <?php Pjax::begin(['id' => 'branchesGrid']); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'pjax' => true,
         'export' => false,
         'rowOptions' => function ($model) {
-            if ($model->branch_status == 'inactive') {
+            if ($model->branch_status == 'inactive')
+            {
                 return ['class' => 'danger'];
-            } else {
+            } else
+            {
                 return ['class' => ' success'];
             }
         },
-//        'columns' => [
-//                ['class' => ' yii\grid\SerialColumn'],
-//                [
-//                        'attribute' => 'companies_company_id',
-//                        'value' => 'companiesCompany.company_name',
-//],
-//'branch_name',
-//'branch_address',
-//'branch_created_date',
-//'branch_status',
-//
-//[
-//        'class' => 'yii\grid\ActionColumn',
-//],
-//]);
-
-
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'companies_company_id',
-                'value' => 'companiesCompany.company_name'
+                'value' => 'companiesCompany.company_name',
             ],
             [
                 'class' => 'kartik\grid\EditableColumn',
-                'header'=>'BRANCH',
+                'header' => 'BRANCH',
                 'attribute' => 'branch_name',
-
             ],
-//            'branch_id',
-//            'branch_name',
             'branch_address',
             'branch_created_date',
-            [
-                'attribute' => 'branch_status',
-                'value' => function ($model) {
-                    if ($model->branch_status == 'inactive') {
-                        return '<span class="badge bg-danger">Inactive</span>';
-                    } else {
-                        return '<span class="badge bg-primary">Active</span>';
-                    }
-                },
-                'format' => 'html'
-            ],
+            'branch_status',
 
-            [
-                'class' => ActionColumn::class,
-                'urlCreator' => function ($action, Branches $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'branch_id' => $model->branch_id]);
-                }
-            ],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
-    <?php Pjax::end() ?>
 </div>

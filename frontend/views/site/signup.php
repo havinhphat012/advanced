@@ -1,11 +1,11 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
+/** @var yii\bootstrap4\ActiveForm $form */
 /** @var \frontend\models\SignupForm $model */
 
-use yii\bootstrap5\Html;
-use yii\bootstrap5\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 $this->title = 'Signup';

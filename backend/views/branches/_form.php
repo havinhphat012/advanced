@@ -17,7 +17,7 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin([
         'id' => $model->formName(),
         'enableAjaxValidation' => true,
-        'ValidationUrl' => Url::toRoute('branches/validation')
+        'validationUrl' => Url::toRoute('branches/validation')
     ]); ?>
 
     <?= $form->field($model, 'companies_company_id')->widget(Select2::class, [

@@ -6,7 +6,9 @@ use backend\models\Branches;
 use backend\models\BranchesSearch;
 use backend\models\Companies;
 use kartik\editable\Editable;
+use kartik\form\ActiveForm;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -96,6 +98,12 @@ class BranchesController extends Controller
         if (Yii::$app->user->can('create-branch')) {
             $model = new Branches();
 
+            if (Yii::$app->request->isAjax && $model-> load(Yii::$app->request->post()))
+            {
+                Yii::$app->response->format = 'json';
+                return ActiveForm::validate($model);
+            }
+
             if ($model->load(Yii::$app->request->post())) {
                 $model->branch_created_date = date('Y-m-d h:m:s');
 
@@ -114,6 +122,16 @@ class BranchesController extends Controller
         }
 
     }
+
+    public function actionValidation()
+    {
+        $model = new Branches;
+        if (Yii::$app->request->isAjax && $model-> load(Yii::$app->request->post()))
+            {
+                Yii::$app->response->format = 'json';
+                return ActiveForm::validate($model);
+            }
+}
 
 
     /**

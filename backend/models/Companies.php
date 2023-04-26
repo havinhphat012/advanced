@@ -43,7 +43,7 @@ class Companies extends \yii\db\ActiveRecord
             [['company_name', 'company_email', 'company_address', 'company_created_date', 'company_status'], 'required'],
             [['company_created_date'], 'safe'],
             [['company_status'], 'string'],
-            [['file'], 'file'],
+            [['file'], 'image', 'minWidth'=>'1024', 'minHeight'=>'1024'],
             [['company_name', 'logo', 'company_email'], 'string', 'max' => 100],
             [['company_address'], 'string', 'max' => 255],
 //            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::class, 'targetAttribute' => ['company_id' => 'branch_id']],

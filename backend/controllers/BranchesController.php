@@ -156,20 +156,26 @@ class BranchesController extends Controller
                 if ($row == 1) {
                     continue;
                 }
-                $branch = new Branches();
-                $branch_id = $rowData[0][0];
-                $branch->companies_company_id = $rowData[0][1];
-                $branch->branch_name = $rowData[0][2];
-                $branch->branch_address = $rowData[0][3];
-                $branch->branch_created_date = date('Y-m-d H:i:s');
-                $branch->branch_status = $rowData[0][4];
-                $branch->save();
-
-                print_r($branch->getErrors());
+//                $branch = new Branches();
+//                $branch_id = $rowData[0][0];
+//                $branch->companies_company_id = $rowData[0][1];
+//                $branch->branch_name = $rowData[0][2];
+//                $branch->branch_address = $rowData[0][3];
+//                $branch->branch_created_date = date('Y-m-d H:i:s');
+//                $branch->branch_status = $rowData[0][4];
+//                $branch->save();
+                if(!empty($rowData[0][0])){
+                    $data[] = [$rowData[0][0], $rowData[0][1], $rowData[0][2], $rowData[0][3], date('Y-m-d H-i-s'), $rowData[0][4]];
+                }
             }
+            Yii::$app->db->createCommand()
+                ->batchInsert('branches', ['branch_id', 'companies_company_id', 'branch_name', 'branch_address',
+                    'branch_created_date', 'branch_status'], $data)
+                ->execute();
+
         } catch (\Exception $e) {
             Yii::debug($e->getMessage());
-            die('Error');
+            die('okay');
         }
     }
 

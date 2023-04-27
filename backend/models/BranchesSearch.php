@@ -58,6 +58,18 @@ class BranchesSearch extends Branches
 
         $query->joinWith('companiesCompany');
 
+        $dataProvider->setSort([
+            'attributes'=>[
+                'branch_name',
+                'branch_status',
+                'branch_created_date',
+                'companies_company_id'=>[
+                    'asc'=>['companies.company_name'=>SORT_ASC],
+                    'desc'=>['companies.company_name'=>SORT_DESC],
+                ]
+            ]
+        ]);
+
         // grid filtering conditions
         $query->andFilterWhere([
             'branch_id' => $this->branch_id,

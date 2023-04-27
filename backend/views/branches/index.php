@@ -41,6 +41,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 
+    <?php
+        $this->params['test'] = 'this is a  test string';
+
+        $this->beginBlock('advertisement'); ?>
+
+    <h3>This is a Advertisement</h3>
+
+    <?php $this->endBlock() ?>
+    $gridColumns = [
+            //'id';
+            'branch_name',
+            'branch_address',
+            'branch_created_date',
+            'branch_status',
+        ];
+    ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

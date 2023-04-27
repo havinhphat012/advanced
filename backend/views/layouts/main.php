@@ -370,6 +370,13 @@ DashboardAsset::register($this);
                                         </li>
                                     </ul>
                                 </li>
+
+                                <?php
+                                if(isset($this->blocks['advertisement'])){
+                                    echo $this->blocks['advertisement'];
+                                }
+                                ?>
+
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-tree"></i>
@@ -869,6 +876,7 @@ DashboardAsset::register($this);
                                     </a>
                                 </li>
                             </ul>
+
                         </nav>
                         <!-- /.sidebar-menu -->
                     </div>

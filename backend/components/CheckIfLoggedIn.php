@@ -7,19 +7,16 @@ class CheckIfLoggedIn extends \yii\base\Behavior
     public function events()
     {
         return [
-            \yii\web\Application::EVENT_BEFORE_REQUEST => 'checkIfLoggedIn',
+            \yii\web\Application::EVENT_BEFORE_REQUEST => 'changeLanguage',
         ];
     }
     public function checkIfLoggedIn()
     {
-        if(\Yii::$app->user->isGuest)
+        if(\Yii::$app->getRequest()->getCookies()->has('lang'))
         {
-            echo 'you are a guest';
-        }else
-        {
-            echo 'you are logged in';
+            \Yii::$app->language = \Yii::$app->getRequest()->getCookies()->getValue('lang');
         }
-        die();
+
     }
 }
 

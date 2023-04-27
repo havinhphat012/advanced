@@ -881,6 +881,14 @@ DashboardAsset::register($this);
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <div class="content-header">
+                <h1><small>Control panel</small></h1>
+                <div class="languages">
+                    <?php
+                        foreach (Yii::$app->params['languages'] as $key => $language) {
+                            echo '<span class="language" id="'.$key.'">'.$language.' | </span>';
+                        }
+                    ?>
+                </div>
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">

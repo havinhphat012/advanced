@@ -61,7 +61,11 @@ return [
 
         'MyComponent' => [
             'class' => 'backend\components\MyComponent',
-        ]
+        ],
+
+        'as beforeRequest'=>[
+            'class'=>'backend\components\CheckIfLoggedIn',
+        ],
     ],
     'params' => $params,
 ];

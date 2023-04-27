@@ -9,7 +9,7 @@ $this->title = 'My Yii Application';
     <div class="jumbotron text-center bg-transparent">
         <h1 class="display-4">My app cua TTS</h1>
 
-        <p class="lead"><?= Yii::t('app', 'Welcome ') ?> Successfully </p>
+        <p class="lead"><?= Yii::t('app', 'Welcome') ?> </p>
         <p class="lead"><?= Yii::t('app', 'Hiển thị dòng Description') ?></p>
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
     </div>

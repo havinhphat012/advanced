@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'language' => 'en',
+//    'language' => 'ru',
     'modules' => [
         'gridview' => [
             'class' => '\kartik\grid\Module'
@@ -30,12 +30,12 @@ return [
             'translations' => [
                 'app' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-//                    'basePath' => '@app/messages',
-                    'sourceLanguage' => 'en',
-//                    'fileMap' => [
-//                        'app' => 'app.php',
-//                        'app/error' => 'error.php',
-//                    ],
+//                    'basePath' => '@backend/messages',
+//                    'sourceLanguage' => 'ru',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
                 ],
             ],
         ],
@@ -76,10 +76,9 @@ return [
         'MyComponent' => [
             'class' => 'backend\components\MyComponent',
         ],
-
-        'as beforeRequest'=>[
-            'class'=>'backend\components\CheckIfLoggedIn',
-        ],
+    ],
+    'as beforeRequest'=>[
+        'class'=>'backend\components\CheckIfLoggedIn',
     ],
     'params' => $params,
 ];

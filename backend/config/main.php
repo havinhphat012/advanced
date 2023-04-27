@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'language' => 'en',
     'modules' => [
         'gridview' => [
             'class' => '\kartik\grid\Module'
@@ -30,11 +31,11 @@ return [
                 'app' => [
                     'class' => 'yii\i18n\PhpMessageSource',
 //                    'basePath' => '@app/messages',
-                'sourceLanguage' => 'en',
-                    'fileMap' => [
-                        'app' => 'app.php',
-                        'app/error' => 'error.php',
-                    ],
+                    'sourceLanguage' => 'en',
+//                    'fileMap' => [
+//                        'app' => 'app.php',
+//                        'app/error' => 'error.php',
+//                    ],
                 ],
             ],
         ],

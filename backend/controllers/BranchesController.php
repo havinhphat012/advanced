@@ -46,6 +46,10 @@ class BranchesController extends Controller
      */
     public function actionIndex()
     {
+        $comments = Yii::$app->db2->createCommand("SELECT * from `comment`")->queryAll();
+        print_r($comments);
+//        die();
+
         $searchModel = new BranchesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 

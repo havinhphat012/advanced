@@ -16,6 +16,8 @@ class CustomersController extends Controller
     /**
      * @inheritDoc
      */
+    //kiểm tra phương thức HTTP được sử dụng để gọi action và chỉ cho phép
+    // các yêu cầu sử dụng phương thức POST truy cập vào action
     public function behaviors()
     {
         return array_merge(

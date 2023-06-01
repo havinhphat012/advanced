@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
                 [
                     'class'=>'kartik\grid\ExpandRowColumn',
+                    //
                     'value'=>function ($model, $key, $index, $column) {
                         return GridView::ROW_COLLAPSED;
                     },

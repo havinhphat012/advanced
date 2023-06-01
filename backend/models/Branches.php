@@ -34,6 +34,7 @@ class Branches extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    // xác thực và xử lý dữ liệu của đối tượng model
     public function rules()
     {
         return [
@@ -54,7 +55,9 @@ class Branches extends \yii\db\ActiveRecord
                 }"],
             [['branch_name'], 'string', 'max' => 100],
             [['branch_address'], 'string', 'max' => 255],
+            // thuộc tính companies_company_id phải tồn tại trong bảng "companies" và trỏ tới cột "company_id"
             [['companies_company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::class, 'targetAttribute' => ['companies_company_id' => 'company_id']],
+            //thuộc tính branch_id phải tồn tại trong bảng "departments" và trỏ tới cột "department_id"
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departments::class, 'targetAttribute' => ['branch_id' => 'department_id']],
         ];
     }
@@ -81,6 +84,7 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getBranch()
     {
+        //định nghĩa mối quan hệ giữa bảng "branches" và bảng "departments"
         return $this->hasOne(Departments::class, ['department_id' => 'branch_id']);
     }
 
@@ -91,6 +95,7 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getCompanies()
     {
+        //định nghĩa mối quan hệ giữa bảng "branches" và bảng "companies"
         return $this->hasOne(Companies::class, ['company_id' => 'branch_id']);
     }
 
@@ -101,7 +106,9 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getCompanies0()
     {
+        //định nghĩa mối quan hệ giữa bảng "branches" và bảng "departments" thông qua bảng trung gian "companies"
         return $this->hasMany(Departments::class, ['department_id' => 'company_id'])->viaTable('companies', ['company_id' => 'branch_id']);
+        //Phương thức viaTable() được sử dụng để xác định tên của bảng trung gian và các cặp giá trị khóa trong bảng trung gian để thiết lập mối quan hệ giữa hai bảng
     }
 
     /**
@@ -111,6 +118,7 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getCompaniesCompany()
     {
+        //định nghĩa mối quan hệ giữa bảng "branches" và bảng "companies"
         return $this->hasOne(Companies::class, ['company_id' => 'companies_company_id']);
     }
 
@@ -121,6 +129,7 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getDepartments()
     {
+        //định nghĩa mối quan hệ giữa bảng "branches" và bảng "departments"
         return $this->hasMany(Departments::class, ['branches_branch_id' => 'branch_id']);
     }
 }

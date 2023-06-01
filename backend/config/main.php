@@ -15,10 +15,6 @@ return [
     'modules' => [
         'gridview' => [
             'class' => '\kartik\grid\Module'
-
-            //message source
-            //'downloadAction' => 'gridview/export/download',
-            //'il8n' => []
         ],
         'settings' => [
             'class' => 'backend\modules\settings\Settings',

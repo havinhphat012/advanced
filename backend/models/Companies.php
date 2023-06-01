@@ -37,6 +37,7 @@ class Companies extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    //kiểm tra và xác thực dữ liệu
     public function rules()
     {
         return [

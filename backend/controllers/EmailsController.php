@@ -18,6 +18,7 @@ class EmailsController extends Controller
     /**
      * @inheritDoc
      */
+    //Giới hạn các phương thức HTTP mà controller có thể xử lý
     public function behaviors()
     {
         return array_merge(
@@ -69,13 +70,13 @@ class EmailsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Emails();
+        $model = new Emails(); //Khởi tạo
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()))
+        if ($this->request->isPost) //Kiểm tra yêu caàu là POST
+        {
+            if ($model->load($this->request->post()))//Đúng sử dụng phương thức load nạp đối tượng form vào Emails
             {
-//                $company = Companies::findOne(Yii::$app->user->identity->companies_company_id);
-                //upload the attachment
+                //Lấy thông tin
                 $model -> attachment = UploadedFile::getInstance($model, 'attachment');
                 if( $model->attachment )
                 {
@@ -85,7 +86,8 @@ class EmailsController extends Controller
                 }
                 if( $model -> attachment )
                 {
-                    $value = Yii::$app->mailer->compose()
+                    $value = Yii::$app->mailer->compose()//gửi maill ử dụng compose để  tạo message đại diện mail gửi đi
+                        //Thiết lập thuộc tính
                         ->setFrom(['phattvt01@gmail.com' => 'MyAppIT'])
                         ->setTo($model->receiver_email)
                         ->setSubject($model->subject)

@@ -371,6 +371,7 @@ DashboardAsset::register($this);
                                     </ul>
                                 </li>
 
+                                //kiểm tra xem block 'advertisement' đã được định nghĩa hay chưa
                                 <?php
                                 if(isset($this->blocks['advertisement'])){
                                     echo $this->blocks['advertisement'];

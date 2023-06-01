@@ -16,6 +16,7 @@ class EventController extends Controller
     /**
      * @inheritDoc
      */
+    //Giới hạn các phương thức HTTP mà controller có thể xử lý
     public function behaviors()
     {
         return array_merge(
@@ -38,10 +39,12 @@ class EventController extends Controller
      */
     public function actionIndex()
     {
+        //sử dụng phương thức find() để lấy tất cả các sự kiện từ cơ sở dữ liệu bằng cách sử dụng lớp Event
         $events = Event::find()->all();
 
         foreach ($events as $event)
         {
+            //cập nhật thông tin cho đối tượng Event
             $event = new \yii2fullcalendar\models\Event();
             $event->id = $event->id;
             $event->title = $event->title;

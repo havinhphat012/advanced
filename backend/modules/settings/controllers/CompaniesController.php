@@ -74,14 +74,6 @@ class CompaniesController extends Controller
             return yii\widgets\ActiveForm::Validate($model);
         }
 
-//        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->company_id]);
-//        } else {
-//            return $this->render('create', [
-//                'model' => $model,
-//            ]);
-//        }
-
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'company_id' => $model->company_id]);

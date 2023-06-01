@@ -16,6 +16,7 @@ class PoitemController extends Controller
     /**
      * @inheritDoc
      */
+    //Giới hạn HTTP xử lý
     public function behaviors()
     {
         return array_merge(
@@ -38,7 +39,9 @@ class PoitemController extends Controller
      */
     public function actionIndex()
     {
+        //Tạo mới đối tượng
         $searchModel = new PoitemSearch();
+        //tìm kiếm và trả về đối tượng ActiveDataProvider phù hợp
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [

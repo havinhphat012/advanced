@@ -51,6 +51,7 @@ class PoController extends Controller
         ]);
     }
 
+    //hiển thị thông tin chi tiết của một đối tượng Po
     /**
      * Displays a single Po model.
      * @param int $id ID
@@ -71,19 +72,21 @@ class PoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Po();
-        $modelsPoItem = [new PoItem];
-        if ($model->load(Yii::$app->request->post()) && $model->save())
+        $model = new Po(); //Tạo đối tượng
+        $modelsPoItem = [new PoItem]; //Tạo mảng chứa đối tượng để lưu thông tin
+        if ($model->load(Yii::$app->request->post()) && $model->save()) //Kiểm tra yêu cầu đúng là POST lưu lại
         {
 
-            $modelsPoItem = Model::createMultiple(PoItem::classname());
+            $modelsPoItem = Model::createMultiple(PoItem::classname()); //tạo nhiều đối tượng PoItem tương ứng
+            //nạp dữ liệu của các đối tượng PoItem từ dữ liệu được gửi từ form
             Model::loadMultiple($modelsPoItem, Yii::$app->request->post());
 
-            // validate all models
+            // validate all models kiểm tra tính hợp lệ
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelsPoItem) && $valid;
 
             if ($valid) {
+                //lưu thông tin của đối tượng Po và các đối tượng PoItem vào cơ sở dữ liệu
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
@@ -95,10 +98,12 @@ class PoController extends Controller
                             }
                         }
                     }
+                    //Thành công
                     if ($flag) {
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
+                    //thất bại - hiển thị lại trang
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
@@ -106,6 +111,7 @@ class PoController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
+        //Không phải POST render giao diện create
         else {
             return $this->render('create', [
                 'model' => $model,

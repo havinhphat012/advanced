@@ -8,6 +8,7 @@ use yii\helpers\Html;
 
 
 $this->title = Yii::t('app', 'Create Companies');
+//Thiết lập đường dẫn điều hướng trang
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Companies'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

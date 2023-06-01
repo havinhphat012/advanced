@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+//cung cấp các thông tin về kiểu dữ liệu và mô tả cho các biến được sử dụng
 /** @var yii\web\View $this */
 /** @var backend\modules\settings\models\Companies $model */
 /** @var yii\widgets\ActiveForm $form */
@@ -20,14 +21,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'company_address')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'file')->fileInput(['maxlength' => true]) ?>
-<!---->
-<!--    --><?php //= $form->field($model, 'company_start_date')->textInput() ?>
-<!---->
-<!--    --><?php //= $form->field($model, 'company_created_date')->textInput() ?>
 
     <?= $form->field($model, 'company_status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', ], ['prompt' => 'Status']) ?>
-
-<!--    Create Branch for this company-->
 
     <?= $form->field($branch, 'branch_name')->textInput(['maxlength' => 100]) ?>
 

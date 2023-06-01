@@ -23,6 +23,7 @@ class SignupForm extends Model
     /**
      * {@inheritdoc}
      */
+    //Xác thực dữ liệu đầu vào
     public function rules()
     {
         return [
@@ -49,12 +50,13 @@ class SignupForm extends Model
      *
      * @return bool whether the creating new account was successful and email was sent
      */
+    //Phương thức Validate trả về mảng chứ lỗi xác thực
     public function signup()
     {
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->first_name = $this->first_name;
         $user->last_name = $this->last_name;

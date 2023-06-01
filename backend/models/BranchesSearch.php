@@ -51,13 +51,15 @@ class BranchesSearch extends Branches
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
+            // bỏ ghi chú dòng sau nếu bạn không muốn trả lại bất kỳ bản ghi nào khi xác thực không thành công
             // $query->where('0=1');
             return $dataProvider;
         }
 
+        // phương thức joinWith() để thực hiện việc kết nối động thông qua một mối quan hệ companiesCompany trong model
         $query->joinWith('companiesCompany');
 
+        //thiết lập thuộc tính sắp xếp cho dữ liệu được trả về từ câu truy vấn
         $dataProvider->setSort([
             'attributes'=>[
                 'branch_name',
@@ -70,12 +72,13 @@ class BranchesSearch extends Branches
             ]
         ]);
 
-        // grid filtering conditions
+        // điều kiện lọc lưới
         $query->andFilterWhere([
             'branch_id' => $this->branch_id,
             'branch_created_date' => $this->branch_created_date,
         ]);
 
+        //tìm kiếm cho các trường trong bảng "branches" và bảng "companies"
         $query->andFilterWhere(['like', 'branch_name', $this->branch_name])
             ->andFilterWhere(['like', 'branch_address', $this->branch_address])
             ->andFilterWhere(['like', 'branch_status', $this->branch_status])
@@ -85,5 +88,3 @@ class BranchesSearch extends Branches
     }
 }
 
-
-//'companies_company_id' => $this->companies_company_id,

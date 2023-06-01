@@ -28,7 +28,7 @@ class CompaniesController extends Controller
     public function actionIndex()
     {
         $searchModel = new CompaniesSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search($this->request->queryParams);//Tham số truy vấn
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -64,10 +64,15 @@ class CompaniesController extends Controller
             if ($this->request->isPost) {
                 if ($model->load(Yii::$app->request->post()) && $branch->load(Yii::$app->request->post())) {
 
+                    //gọi biến
                     $imageName = $model->company_name;
+                    //Nếu chưa chọn ảnh thì out
                     if(empty($model->file))
                     {
+                        //Nếu đã chọn ảnh thì sử dụng phương thức UploadedFile để lưu thư mục upload lên serve
+                        //getInstance lấy thông tin về tệp tin được tải lên từ yêu cầu POST
                         $model->file = UploadedFile::getInstance($model,'file');
+                        //Save as lưu bản sao vào uploads
                         $model->file->saveAs( 'uploads/'.$imageName.'.'.$model->file->extension );
 
                         $model->logo = 'uploads/'.$imageName.'.'.$model->file->extension;
@@ -105,12 +110,16 @@ class CompaniesController extends Controller
      */
     public function actionUpdate($company_id)
     {
+        //Dùng phương thứ findModel để truy vấn $company_id
         $model = $this->findModel($company_id);
-
+        //Kiểm tra phương thức POST
+        //Đúng thì ử dụng phương thức load lấy dữ liệu từ yêu cầu POST
+        //Cập nhật bằng save
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            //Chuyển hướng đến trang view company
             return $this->redirect(['view', 'company_id' => $model->company_id]);
         }
-
+        //Không phải POST thì hiện form cập nhật
         return $this->render('update', [
             'model' => $model,
         ]);

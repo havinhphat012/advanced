@@ -23,10 +23,10 @@ use wbraganca\dynamicform\DynamicFormWidget;
             <div class="panel-heading"><h4><i class="glyphicon glyphicon-envelope"></i> Po Items </h4></div>
             <div class="panel-body">
                 <?php DynamicFormWidget::begin([
-                    'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
-                    'widgetBody' => '.container-items', // required: css class selector
+                    'widgetContainer' => 'dynamicform_wrapper', // bắt buộc: chỉ ký tự chữ và số cộng với "_" [A-Za-z0-9_]
+                    'widgetBody' => '.container-items', // bắt buộc: bộ chọn lớp css
                     'widgetItem' => '.item', // required: css class
-                    'limit' => 4, // the maximum times, an element can be cloned (default 999)
+                    'limit' => 4, // số lần tối đa, một phần tử có thể được sao chép (mặc định 999)
                     'min' => 1, // 0 or 1 (default 1)
                     'insertButton' => '.add-item', // css class
                     'deleteButton' => '.remove-item', // css class

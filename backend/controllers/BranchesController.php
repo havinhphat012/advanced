@@ -50,10 +50,11 @@ class BranchesController extends Controller
         print_r($comments);
 //        die();
 
-        $searchModel = new BranchesSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $searchModel = new BranchesSearch(); //Tạo đối tượng mới từ lớp BranchesSearch
+        $dataProvider = $searchModel->search($this->request->queryParams); //Hiển thị bảng ghi tìm kiếm thông qua ($this->...)
 
-        if (Yii::$app->request->post('hasEditable')) {
+        if (Yii::$app->request->post('hasEditable')) //Kiểm tra cso tồn tại k
+        {
             $branchId = Yii::$app->request->post('editableKey');
             $branch = Branches::findOne($branchId);
 
@@ -130,9 +131,9 @@ class BranchesController extends Controller
     public function actionValidation()
     {
         $model = new Branches;
-        if (Yii::$app->request->isAjax && $model-> load(Yii::$app->request->post()))
+        if (Yii::$app->request->isAjax && $model-> load(Yii::$app->request->post()))//Kiêm tra AJAX
             {
-                Yii::$app->response->format = 'json';
+                Yii::$app->response->format = 'json';//xác thực mô hình và trả về các lỗi xác thực dưới định dạng JSON
                 return ActiveForm::validate($model);
             }
 }
@@ -145,6 +146,7 @@ class BranchesController extends Controller
     {
         $inputFile = 'uploads/branches_file.xlsx';
         try {
+            //Đọc dữ liệu
             $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFile);
             $objReader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
             $objPHPExcel = $objReader->load($inputFile);
@@ -153,21 +155,14 @@ class BranchesController extends Controller
             $sheet = $objPHPExcel->getSheet(0);
             $highestRow = $sheet->getHighestRow();
             $highestColumn = $sheet->getHighestColumn();
-
+            //Lặp qua từng dòng của sheet
             for ($row = 1; $row <= $highestRow; $row++) {
+                //Lưu ở mảng $rowdata
                 $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
 
                 if ($row == 1) {
                     continue;
                 }
-//                $branch = new Branches();
-//                $branch_id = $rowData[0][0];
-//                $branch->companies_company_id = $rowData[0][1];
-//                $branch->branch_name = $rowData[0][2];
-//                $branch->branch_address = $rowData[0][3];
-//                $branch->branch_created_date = date('Y-m-d H:i:s');
-//                $branch->branch_status = $rowData[0][4];
-//                $branch->save();
                 if(!empty($rowData[0][0])){
                     $data[] = [$rowData[0][0], $rowData[0][1], $rowData[0][2], $rowData[0][3], date('Y-m-d H-i-s'), $rowData[0][4]];
                 }
@@ -219,7 +214,7 @@ class BranchesController extends Controller
 
     public function actionLists($id)
     {
-        $countBranches = Branches::find()
+        $countBranches = Branches::find()//đếm số lượng và lưu kq
             ->where(['Companies_company_id' => $id])
             ->count();
         $branches = Branches::find()
@@ -236,18 +231,17 @@ class BranchesController extends Controller
 
     public function actionUpload()
     {
+        //Định nghĩa tệp và đường dẫn
         $fileName = 'file';
         $uploadPath = 'uploads';
 
-        if (isset($_FILES[$fileName])) {
+        if (isset($_FILES[$fileName])) //Kiểm tra tệp
+        {
+            //Lấy thông tin tệp đc tải lên
             $file = \yii\web\UploadedFile::getInstanceByName($fileName);
 
-            //Print file data
-            //print_r($file);
-
             if ($file->saveAs($uploadPath . '/' . $file->name)) {
-                //Now save file data to database
-
+                //Mã hóa thông tin tệp trả về dạng Json
                 echo \yii\helpers\Json::encode($file);
             }
         }else {
